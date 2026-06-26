@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUROKAN — 参謀の知略が組織の成果を変える</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #8B6F35;
+    --black: #0A0A0A;
+    --black-2: #111111;
+    --black-3: #1A1A1A;
+    --white: #F0ECE4;
+    --white-dim: #9A9488;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── SEIGAIHA BACKGROUND ── */
+  .seigaiha-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.04;
+    background-image: radial-gradient(circle at 50% 120%, transparent 60%, var(--gold) 60.5%, var(--gold) 63%, transparent 63.5%),
+      radial-gradient(circle at 0% 120%, transparent 60%, var(--gold) 60.5%, var(--gold) 63%, transparent 63.5%),
+      radial-gradient(circle at 100% 120%, transparent 60%, var(--gold) 60.5%, var(--gold) 63%, transparent 63.5%);
+    background-size: 80px 40px;
+    background-position: 0 0, -40px 0, 40px 0;
+    pointer-events: none;
+  }
+
+  section, nav, footer { position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--white-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    padding: 10px 28px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    transition: all 0.3s;
+  }
+
+  .nav-cta:hover {
+    background: var(--gold);
+    color: var(--black);
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 60%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .hero-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 18vw, 14rem);
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 24px;
+    text-shadow: 0 0 80px rgba(201,168,76,0.3);
+  }
+
+  .hero-divider {
+    width: 80px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 32px;
+    opacity: 0.6;
+  }
+
+  .hero-tagline {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    color: var(--white-dim);
+    letter-spacing: 0.15em;
+    margin-bottom: 56px;
+  }
+
+  .hero-pillars {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-pillar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .hero-pillar-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+  }
+
+  .hero-pillar-en {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--white-dim);
+    text-transform: uppercase;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    padding: 16px 48px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    padding: 16px 48px;
+    border: 1px solid var(--gold-dim);
+    color: var(--white-dim);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── SECTION BASE ── */
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    margin-bottom: 24px;
+  }
+
+  .gold-bar {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 48px;
+  }
+
+  /* ── PROBLEM ── */
+  #problem {
+    padding: 120px 0;
+    background: var(--black-2);
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .problem-card {
+    background: var(--black-3);
+    padding: 48px 40px;
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .problem-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+
+  .problem-card h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.15rem;
+    color: var(--gold);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .problem-card p {
+    font-size: 0.9rem;
+    color: var(--white-dim);
+    line-height: 1.9;
+  }
+
+  /* ── SOLUTION ── */
+  #solution {
+    padding: 140px 0;
+  }
+
+  .solution-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 64px;
+  }
+
+  .solution-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .solution-circle {
+    width: 320px;
+    height: 320px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .solution-circle::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 50%;
+  }
+
+  .solution-circle-text {
+    text-align: center;
+  }
+
+  .solution-circle-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    display: block;
+  }
+
+  .solution-circle-label {
+    font-size: 0.75rem;
+    color: var(--white-dim);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-top: 8px;
+  }
+
+  .orbit-node {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: var(--black-3);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-align: center;
+    gap: 4px;
+  }
+
+  .orbit-node:nth-child(2) { top: -40px; left: 50%; transform: translateX(-50%); }
+  .orbit-node:nth-child(3) { top: 50%; right: -40px; transform: translateY(-50%); }
+  .orbit-node:nth-child(4) { bottom: -40px; left: 50%; transform: translateX(-50%); }
+  .orbit-node:nth-child(5) { top: 50%; left: -40px; transform: translateY(-50%); }
+
+  .orbit-icon { font-size: 1rem; }
+
+  .solution-features {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .feature-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .feature-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: rgba(201,168,76,0.2);
+    line-height: 1;
+    min-width: 48px;
+  }
+
+  .feature-text h4 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .feature-text p {
+    font-size: 0.85rem;
+    color: var(--white-dim);
+    line-height: 1.9;
+  }
+
+  /* ── STAT ── */
+  #stat {
+    padding: 100px 0;
+    background: var(--black-2);
+    text-align: center;
+  }
+
+  .stat-block {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin: 40px 0 16px;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(6rem, 16vw, 11rem);
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 0 60px rgba(201,168,76,0.25);
+  }
+
+  .stat-unit {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: var(--gold-dim);
+  }
+
+  .stat-caption {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--white-dim);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .stat-desc {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    color: var(--white-dim);
+    line-height: 2;
+  }
+
+  /* ── IMPACT ── */
+  #impact {
+    padding: 140px 0;
+  }
+
+  .impact-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 56px;
+  }
+
+  .impact-table th {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-dim);
+    text-align: left;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .impact-table td {
+    padding: 28px 24px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: top;
+  }
+
+  .impact-table td:first-child {
+    color: var(--gold);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .impact-table td:nth-child(2) {
+    color: var(--white);
+  }
+
+  .impact-table td:nth-child(3) {
+    color: var(--white-dim);
+  }
+
+  .impact-table tr:hover td {
+    background: rgba(201,168,76,0.03);
+  }
+
+  /* ── ROADMAP ── */
+  #roadmap {
+    padding: 120px 0;
+    background: var(--black-2);
+  }
+
+  .roadmap-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 64px;
+    position: relative;
+  }
+
+  .roadmap-steps::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 12.5%;
+    right: 12.5%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+  }
+
+  .roadmap-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    gap: 20px;
+  }
+
+  .step-dot {
+    width: 48px;
+    height: 48px;
+    background: var(--black-2);
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .step-dot-inner {
+    width: 10px;
+    height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .step-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+
+  .step-text {
+    font-size: 0.82rem;
+    color: var(--white-dim);
+    line-height: 1.7;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── QUOTE ── */
+  #quote {
+    padding: 120px 40px;
+    text-align: center;
+    background: var(--black);
+  }
+
+  .quote-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.7rem);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 2.2;
+    max-width: 800px;
+    margin: 0 auto 32px;
+    letter-spacing: 0.08em;
+  }
+
+  .quote-text em {
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .quote-author {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-dim);
+    margin-bottom: 60px;
+  }
+
+  .quote-sub {
+    font-size: 0.9rem;
+    color: var(--white-dim);
+    max-width: 600px;
+    margin: 0 auto 16px;
+    line-height: 2;
+  }
+
+  .quote-strong {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-top: 20px;
+  }
+
+  /* ── CTA ── */
+  #cta {
+    padding: 140px 40px;
+    text-align: center;
+    background: var(--black-2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 70%);
+  }
+
+  #cta .section-inner { position: relative; }
+
+  .cta-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .cta-sub {
+    font-size: 0.95rem;
+    color: var(--white-dim);
+    margin-bottom: 56px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px 40px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--gold-dim);
+  }
+
+  .footer-note {
+    font-size: 0.75rem;
+    color: var(--white-dim);
+    letter-spacing: 0.08em;
+    opacity: 0.5;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+  }
+
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.45s; }
+  .delay-4 { animation-delay: 0.6s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .section-inner { padding: 0 24px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .solution-layout { grid-template-columns: 1fr; }
+    .solution-circle { display: none; }
+    .roadmap-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .roadmap-steps::before { display: none; }
+    .impact-table th:nth-child(3),
+    .impact-table td:nth-child(3) { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-up { animation: none; opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="seigaiha-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">KUROKAN</div>
+  <ul class="nav-links">
+    <li><a href="#problem">課題</a></li>
+    <li><a href="#solution">ソリューション</a></li>
+    <li><a href="#impact">効果</a></li>
+    <li><a href="#roadmap">導入の流れ</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">トライアルを申し込む</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-eyebrow fade-up">AI × LINE × MBO — 組織知性を自動で育てる</p>
+  <h1 class="hero-logo fade-up delay-1">KUROKAN</h1>
+  <div class="hero-divider fade-up delay-2"></div>
+  <p class="hero-tagline fade-up delay-2">参謀の知略が組織の成果を変える</p>
+
+  <div class="hero-pillars fade-up delay-3">
+    <div class="hero-pillar">
+      <span class="hero-pillar-jp">負担はゼロへ</span>
+      <span class="hero-pillar-en">Zero Friction</span>
+    </div>
+    <span style="color:var(--gold-dim); font-size:1.2rem; align-self:center;">／</span>
+    <div class="hero-pillar">
+      <span class="hero-pillar-jp">知恵は組織へ</span>
+      <span class="hero-pillar-en">Collective Intelligence</span>
+    </div>
+    <span style="color:var(--gold-dim); font-size:1.2rem; align-self:center;">／</span>
+    <div class="hero-pillar">
+      <span class="hero-pillar-jp">成長はあなたへ</span>
+      <span class="hero-pillar-en">Personal Growth</span>
+    </div>
+  </div>
+
+  <div class="hero-cta-group fade-up delay-4">
+    <a href="#cta" class="btn-primary">トライアルを申し込む</a>
+    <a href="#solution" class="btn-secondary">詳しく見る</a>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-inner">
+    <p class="section-label">The Problem</p>
+    <h2 class="section-title">管理の「重さ」という、<br>静かなる経営課題。</h2>
+    <div class="gold-bar"></div>
+    <p style="color:var(--white-dim); font-size:0.95rem; max-width:620px; line-height:2;">
+      情報過多、入力疲弊、見えない離職予兆。<br>
+      現場の「声」は届かず、マネージャーの「時間」は消えていく。
+    </p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-card-icon">⌨️</div>
+        <h3>入力による「熱量の喪失」</h3>
+        <p>報告作業そのものが目的化し、現場のクリエイティビティを阻害。週に数時間を「過去の振り返り」という非生産的作業に奪われ続けます。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon">👻</div>
+        <h3>「見えない離職」の予兆</h3>
+        <p>リモートや常駐下で見えない現場。メンバーの孤独やメンタル不調のサインを、組織が手遅れになるまで察知できないリスク。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon">🔒</div>
+        <h3>暗黙知の「個人所有」</h3>
+        <p>優秀な担当者の頭の中にある成功パターンが、組織に蓄積されないまま散逸。育成コストと品質ばらつきが慢性化します。</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon">⏳</div>
+        <h3>マネージャー時間の消耗</h3>
+        <p>全員の日報を読み込み、状況を把握し、個別にフォローする──その繰り返しが、本来すべき「人へのコーチング」を奪います。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="section-inner">
+    <p class="section-label">The Solution</p>
+    <h2 class="section-title">「いつものLINE」で、<br>軍師と話すだけ。</h2>
+    <div class="gold-bar"></div>
+
+    <div class="solution-layout">
+      <div class="solution-visual">
+        <div class="solution-circle">
+          <div class="solution-circle-text">
+            <span class="solution-circle-big">KUROKAN</span>
+            <span class="solution-circle-label">AI 軍師</span>
+          </div>
+          <div class="orbit-node"><span class="orbit-icon">📝</span>目標設定</div>
+          <div class="orbit-node"><span class="orbit-icon">🔄</span>振り返り</div>
+          <div class="orbit-node"><span class="orbit-icon">💬</span>日報・愚痴</div>
+          <div class="orbit-node"><span class="orbit-icon">📊</span>週次レポート</div>
+        </div>
+      </div>
+
+      <div class="solution-features">
+        <div class="feature-item">
+          <span class="feature-num">01</span>
+          <div class="feature-text">
+            <h4>Zero-Friction な対話</h4>
+            <p>専用アプリ不要。いつものLINEで話すだけで、目標設定・振り返り・日報・愚痴まで全て完結。現場の熱量を損なわずに情報を収集します。</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-num">02</span>
+          <div class="feature-text">
+            <h4>AIによる自律的なナレッジ抽出</h4>
+            <p>膨大な対話データから「課題の予兆」「成功の兆し」をAIが自律的に抽出・構造化。単なる記録を組織の知恵として昇華します。</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-num">03</span>
+          <div class="feature-text">
+            <h4>週次レポートで管理工数を圧縮</h4>
+            <p>毎週金曜、ボトルネック・SOS・ベストプラクティス・処方箋をまとめたレポートが自動生成。マネージャーは週5分の確認だけでOK。</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-num">04</span>
+          <div class="feature-text">
+            <h4>Hub & Spoke で知恵が循環</h4>
+            <p>各現場の気づきが中央へ匿名集約。参加組織が増えるほどAIの提案精度が向上し、他社の成功事例があなたの現場へ還流します。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT -->
+<section id="stat">
+  <div class="section-inner">
+    <p class="section-label">Weekly Effort</p>
+    <div class="stat-block">
+      <span class="stat-num">5</span>
+      <span class="stat-unit">分</span>
+    </div>
+    <p class="stat-caption">マネージャーの週次確認時間</p>
+    <p class="stat-desc">
+      全員の日報を読み込む時間は不要です。<br>
+      AI軍師が「今、誰に何を伝えるべきか」のヒントを献策。<br>
+      マネージャーは称賛と対話に集中できます。
+    </p>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="section-inner">
+    <p class="section-label">Business Impact</p>
+    <h2 class="section-title">経営の質を高める<br>3つのインパクト</h2>
+    <div class="gold-bar"></div>
+
+    <table class="impact-table">
+      <thead>
+        <tr>
+          <th>領域</th>
+          <th>経営上の成果指標</th>
+          <th>本質的なインパクト</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>リスク・損失回避</td>
+          <td>離職予兆・現場不満の早期検知</td>
+          <td>深刻化による機会損失と採用コストを防止</td>
+        </tr>
+        <tr>
+          <td>品質の標準化</td>
+          <td>暗黙知の循環による「成功」の再現</td>
+          <td>属人化の解消とサービスレベルの平準化</td>
+        </tr>
+        <tr>
+          <td>マネジメント変革</td>
+          <td>状況把握の自動化と意思決定の迅速化</td>
+          <td>管理工数を「人へのコーチング」へ転換</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-inner">
+    <p class="section-label">Roadmap</p>
+    <h2 class="section-title">価値実現へのロードマップ</h2>
+    <div class="gold-bar"></div>
+
+    <div class="roadmap-steps">
+      <div class="roadmap-step">
+        <div class="step-dot"><div class="step-dot-inner"></div></div>
+        <span class="step-label">Trial</span>
+        <p class="step-text">スモールチームでのLINE対話スタート</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-dot"><div class="step-dot-inner"></div></div>
+        <span class="step-label">Collect</span>
+        <p class="step-text">AI軍師による知恵の抽出・蓄積</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-dot"><div class="step-dot-inner"></div></div>
+        <span class="step-label">Verify</span>
+        <p class="step-text">要約レポートによる管理工数削減の検証</p>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-dot"><div class="step-dot-inner"></div></div>
+        <span class="step-label">Expand</span>
+        <p class="step-text">ナレッジ循環による組織全体の成果最大化</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section id="quote">
+  <p class="quote-text">
+    「マネジメントの役割は、<br>
+    組織の目標を<em>個人のニーズ</em>、<br>
+    <em>個人の自己実現</em>に結びつけることである。」
+  </p>
+  <p class="quote-author">— ピーター・ドラッカー</p>
+  <p class="quote-sub">
+    KUROKANは、組織の意志を一人ひとりの日常に自然に溶け込ませ、<br>
+    個の成長と組織の目標を共鳴させる
+  </p>
+  <span class="quote-strong">『成長の羅針盤』</span>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="section-inner">
+    <p class="section-label">Get Started</p>
+    <h2 class="cta-title">まずは小規模なトライアルから、<br>組織の「進化」を始めませんか？</h2>
+    <p class="cta-sub">専用アプリの導入コストは一切不要。LINEがあればすぐに始められます。</p>
+    <div class="hero-cta-group">
+      <a href="#" class="btn-primary">トライアルを申し込む</a>
+      <a href="#" class="btn-secondary">資料をダウンロード</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">KUROKAN</div>
+  <p class="footer-note">参謀の知略が組織の成果を変える</p>
+</footer>
+
+</body>
+</html>
