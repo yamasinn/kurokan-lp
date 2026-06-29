@@ -621,9 +621,9 @@
 
   /* ── CTA ── */
   #cta {
-    padding: 140px 40px;
+    padding: 140px 0 100px;
     text-align: center;
-    background: var(--black-2);
+    background: var(--black);
     position: relative;
     overflow: hidden;
   }
@@ -631,8 +631,10 @@
   #cta::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 70%);
+    top: 0; left: 0; right: 0;
+    height: 500px;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
   }
 
   #cta .section-inner { position: relative; }
@@ -649,28 +651,299 @@
   .cta-sub {
     font-size: 0.95rem;
     color: var(--white-dim);
-    margin-bottom: 56px;
+    margin-bottom: 64px;
     letter-spacing: 0.05em;
   }
 
-  .form-embed {
-    max-width: 640px;
+  /* ── 申し込みステップ ── */
+  .cta-steps {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 72px;
+    flex-wrap: wrap;
+  }
+
+  .cta-step-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 0 28px;
+  }
+
+  .cta-step-num {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+  }
+
+  .cta-step-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--white-dim);
+    white-space: nowrap;
+  }
+
+  .cta-step-arrow {
+    color: rgba(201,168,76,0.25);
+    font-size: 0.7rem;
+    padding-top: 12px;
+  }
+
+  /* ── カスタムフォーム ── */
+  .kform-shell {
+    position: relative;
+    max-width: 700px;
     margin: 0 auto;
+  }
+
+  .kform-shell::before,
+  .kform-shell::after {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    z-index: 2; pointer-events: none;
+  }
+  .kform-shell::before { top: -1px; left: -1px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+  .kform-shell::after  { top: -1px; right: -1px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+
+  .kform-shell-inner { position: relative; }
+  .kform-shell-inner::before,
+  .kform-shell-inner::after {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    z-index: 2; pointer-events: none;
+  }
+  .kform-shell-inner::before { bottom: -1px; left: -1px; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+  .kform-shell-inner::after  { bottom: -1px; right: -1px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+
+  .kform-header {
+    background: var(--black-3);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-bottom: none;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .kform-header-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+  }
+
+  .kform-header-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-dim);
     border: 1px solid rgba(201,168,76,0.3);
-    background: #fff;
-    overflow: hidden;
+    padding: 4px 12px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .kform-body {
+    background: var(--black-3);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 40px 40px 48px;
     text-align: left;
   }
 
-  .form-embed iframe {
-    display: block;
+  .kform-desc {
+    font-size: 0.82rem;
+    color: var(--white-dim);
+    line-height: 1.9;
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .kform-group {
+    margin-bottom: 32px;
+  }
+
+  .kform-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+
+  .kform-required {
+    font-size: 0.65rem;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 2px 7px;
+    letter-spacing: 0.1em;
+  }
+
+  .kform-input,
+  .kform-textarea {
     width: 100%;
-    height: 1900px;
-    border: 0;
+    background: rgba(255,255,255,0.03);
+    border: none;
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    color: var(--white);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.9rem;
+    padding: 10px 4px;
+    outline: none;
+    transition: border-color 0.3s;
+    letter-spacing: 0.05em;
+  }
+
+  .kform-input:focus,
+  .kform-textarea:focus {
+    border-bottom-color: var(--gold);
+  }
+
+  .kform-input::placeholder,
+  .kform-textarea::placeholder {
+    color: rgba(154,148,136,0.4);
+    font-size: 0.8rem;
+  }
+
+  .kform-textarea {
+    resize: vertical;
+    min-height: 100px;
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 12px;
+    margin-top: 4px;
+  }
+
+  .kform-textarea:focus {
+    border-color: var(--gold);
+  }
+
+  /* ラジオ・チェック共通 */
+  .kform-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .kform-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--white-dim);
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  .kform-option:hover { color: var(--white); }
+
+  .kform-option input[type="radio"],
+  .kform-option input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border: 1px solid rgba(201,168,76,0.4);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+  }
+
+  .kform-option input[type="radio"] { border-radius: 50%; }
+  .kform-option input[type="checkbox"] { border-radius: 2px; }
+
+  .kform-option input[type="radio"]:checked {
+    border-color: var(--gold);
+    background: radial-gradient(circle, var(--gold) 40%, transparent 42%);
+  }
+
+  .kform-option input[type="checkbox"]:checked {
+    border-color: var(--gold);
+    background: var(--gold);
+  }
+
+  .kform-option input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px; top: 2px;
+    width: 5px; height: 9px;
+    border: 2px solid var(--black);
+    border-top: none; border-left: none;
+    transform: rotate(40deg);
+  }
+
+  .kform-other-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    color: var(--white);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.85rem;
+    padding: 2px 4px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .kform-other-input:focus { border-bottom-color: var(--gold); }
+
+  .kform-divider {
+    border: none;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    margin: 8px 0 32px;
+  }
+
+  .kform-submit {
+    width: 100%;
+    margin-top: 40px;
+    padding: 18px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .kform-submit:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  .kform-footer-note {
+    margin-top: 20px;
+    font-size: 0.72rem;
+    color: var(--white-dim);
+    letter-spacing: 0.08em;
+    opacity: 0.4;
+    text-align: center;
   }
 
   @media (max-width: 680px) {
-    .form-embed iframe { height: 2100px; }
+    .kform-body { padding: 28px 24px 36px; }
+    .cta-step-box { padding: 0 14px; }
   }
 
   /* ── FOOTER ── */
@@ -974,17 +1247,156 @@
 <section id="cta">
   <div class="section-inner">
     <p class="section-label">Get Started</p>
-    <h2 class="cta-title">まずは小規模なトライアルから、<br>組織の「進化」を始めませんか？</h2>
+    <h2 class="cta-title">まずは小規模なトライアルから、<br>組織の<em>「進化」</em>を始めませんか？</h2>
     <p class="cta-sub">専用アプリの導入コストは一切不要。LINEがあればすぐに始められます。</p>
-    <div class="form-embed">
-      <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLScNJ9h_Yy_jjDWzJ9zpttRmtRTfVCcz7KEZYuLanltbLWzwjw/viewform?embedded=true"
-        title="KUROKAN トライアル申し込み"
-        loading="lazy"
-        allowfullscreen>
-        読み込んでいます…
-      </iframe>
+
+    <div class="cta-steps">
+      <div class="cta-step-box">
+        <div class="cta-step-num">1</div>
+        <span class="cta-step-label">フォームで申し込み</span>
+      </div>
+      <div class="cta-step-arrow">──────</div>
+      <div class="cta-step-box">
+        <div class="cta-step-num">2</div>
+        <span class="cta-step-label">LINE連携・初期設定</span>
+      </div>
+      <div class="cta-step-arrow">──────</div>
+      <div class="cta-step-box">
+        <div class="cta-step-num">3</div>
+        <span class="cta-step-label">トライアル開始</span>
+      </div>
     </div>
+
+    <div class="kform-shell">
+      <div class="kform-header">
+        <span class="kform-header-title">KUROKAN 事前登録・お問い合わせ</span>
+        <span class="kform-header-badge">無料</span>
+      </div>
+      <div class="kform-shell-inner">
+        <form class="kform-body" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScNJ9h_Yy_jjDWzJ9zpttRmtRTfVCcz7KEZYuLanltbLWzwjw/formResponse" method="POST" target="_blank">
+          <p class="kform-desc">
+            経営参謀AI「KUROKAN（クロカン）」の事前登録・お問い合わせ窓口です。<br>
+            必要事項をご記入の上、送信してください。担当者より追ってご連絡いたします。
+          </p>
+
+          <!-- 会社名 -->
+          <div class="kform-group">
+            <label class="kform-label" for="company">
+              会社名・組織名 <span class="kform-required">必須</span>
+            </label>
+            <input class="kform-input" id="company" type="text" name="entry.414283725" placeholder="例：株式会社〇〇" required>
+          </div>
+
+          <!-- 担当者名 -->
+          <div class="kform-group">
+            <label class="kform-label" for="name">
+              ご担当者名 <span class="kform-required">必須</span>
+            </label>
+            <input class="kform-input" id="name" type="text" name="entry.33381930" placeholder="例：山田 太郎" required>
+          </div>
+
+          <!-- メールアドレス -->
+          <div class="kform-group">
+            <label class="kform-label" for="email">
+              メールアドレス <span class="kform-required">必須</span>
+            </label>
+            <input class="kform-input" id="email" type="email" name="entry.1166339957" placeholder="例：taro@example.com" required>
+          </div>
+
+          <!-- 電話番号 -->
+          <div class="kform-group">
+            <label class="kform-label" for="tel">電話番号</label>
+            <input class="kform-input" id="tel" type="tel" name="entry.1283482347" placeholder="例：03-0000-0000">
+          </div>
+
+          <!-- 部署・役職 -->
+          <div class="kform-group">
+            <label class="kform-label" for="dept">部署・役職</label>
+            <input class="kform-input" id="dept" type="text" name="entry.1208304122" placeholder="例：人事部 マネージャー">
+          </div>
+
+          <hr class="kform-divider">
+
+          <!-- 従業員数 -->
+          <div class="kform-group">
+            <label class="kform-label">
+              従業員数 <span class="kform-required">必須</span>
+            </label>
+            <div class="kform-options">
+              <label class="kform-option"><input type="radio" name="entry.1512224143" value="1〜10名"> 1〜10名</label>
+              <label class="kform-option"><input type="radio" name="entry.1512224143" value="11〜50名"> 11〜50名</label>
+              <label class="kform-option"><input type="radio" name="entry.1512224143" value="51〜100名"> 51〜100名</label>
+              <label class="kform-option"><input type="radio" name="entry.1512224143" value="101〜300名"> 101〜300名</label>
+              <label class="kform-option"><input type="radio" name="entry.1512224143" value="301名以上"> 301名以上</label>
+            </div>
+          </div>
+
+          <!-- チーム規模 -->
+          <div class="kform-group">
+            <label class="kform-label">
+              トライアルに参加したいチーム規模 <span class="kform-required">必須</span>
+            </label>
+            <p style="font-size:0.75rem;color:var(--white-dim);margin-bottom:12px;letter-spacing:0.05em;">※21名以上などについてはその他に記載ください</p>
+            <div class="kform-options">
+              <label class="kform-option"><input type="radio" name="entry.98668578" value="3〜5名"> 3〜5名</label>
+              <label class="kform-option"><input type="radio" name="entry.98668578" value="6〜10名"> 6〜10名</label>
+              <label class="kform-option"><input type="radio" name="entry.98668578" value="11〜20名"> 11〜20名</label>
+              <label class="kform-option">
+                <input type="radio" name="entry.98668578" value="__other_option__"> その他：
+                <input class="kform-other-input" type="text" name="entry.98668578.other_option_response" placeholder="人数をご記入ください">
+              </label>
+            </div>
+          </div>
+
+          <!-- 現在の課題 -->
+          <div class="kform-group">
+            <label class="kform-label">
+              現在の課題（複数選択可） <span class="kform-required">必須</span>
+            </label>
+            <div class="kform-options">
+              <label class="kform-option"><input type="checkbox" name="entry.623383017" value="日報・報告の入力負担が大きい"> 日報・報告の入力負担が大きい</label>
+              <label class="kform-option"><input type="checkbox" name="entry.623383017" value="マネージャーの状況把握に時間がかかる"> マネージャーの状況把握に時間がかかる</label>
+              <label class="kform-option"><input type="checkbox" name="entry.623383017" value="リモート・常駐で現場の声が届きにくい"> リモート・常駐で現場の声が届きにくい</label>
+              <label class="kform-option"><input type="checkbox" name="entry.623383017" value="離職予兆やメンタル不調を早期に察知したい"> 離職予兆やメンタル不調を早期に察知したい</label>
+              <label class="kform-option"><input type="checkbox" name="entry.623383017" value="暗黙知が個人に留まり、組織に蓄積されない"> 暗黙知が個人に留まり、組織に蓄積されない</label>
+              <label class="kform-option"><input type="checkbox" name="entry.623383017" value="目標管理（MBO）が形骸化している"> 目標管理（MBO）が形骸化している</label>
+              <label class="kform-option">
+                <input type="checkbox" name="entry.623383017" value="__other_option__"> その他：
+                <input class="kform-other-input" type="text" name="entry.623383017.other_option_response" placeholder="課題をご記入ください">
+              </label>
+            </div>
+          </div>
+
+          <!-- 希望時期 -->
+          <div class="kform-group">
+            <label class="kform-label">
+              トライアル開始の希望時期 <span class="kform-required">必須</span>
+            </label>
+            <div class="kform-options">
+              <label class="kform-option"><input type="radio" name="entry.1611980061" value="今すぐ（1週間以内）"> 今すぐ（1週間以内）</label>
+              <label class="kform-option"><input type="radio" name="entry.1611980061" value="2週間以内"> 2週間以内</label>
+              <label class="kform-option"><input type="radio" name="entry.1611980061" value="1ヶ月以内"> 1ヶ月以内</label>
+              <label class="kform-option">
+                <input type="radio" name="entry.1611980061" value="__other_option__"> その他：
+                <input class="kform-other-input" type="text" name="entry.1611980061.other_option_response" placeholder="希望時期をご記入ください">
+              </label>
+            </div>
+          </div>
+
+          <hr class="kform-divider">
+
+          <!-- その他 -->
+          <div class="kform-group">
+            <label class="kform-label" for="note">その他・ご質問</label>
+            <textarea class="kform-textarea" id="note" name="entry.744518745" placeholder="ご自由にご記入ください"></textarea>
+          </div>
+
+          <button class="kform-submit" type="submit">送信する</button>
+        </form>
+      </div>
+    </div>
+
+    <p class="kform-footer-note">ご入力いただいた情報は、KUROKAN導入支援の目的にのみ使用いたします。</p>
   </div>
 </section>
 
